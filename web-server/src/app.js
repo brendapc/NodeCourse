@@ -1,7 +1,10 @@
 const express = require('express')
 const path = require('path')
 const hbs = require('hbs')
+const forecast = require('./utils/forecast')
+
 const app = express()
+
 
 /*path manipulates the directories, (current, goalDirectory)
 express static is a function that receives static files for display
@@ -54,10 +57,19 @@ app.get('/weather',(req, res)=>{
             error: 'you must provide an address'
         })
     }
-    res.send({
+    forecast(req.query.address, (error, data)=>{
+        if(error){
+            return res.send({ error})
+        }
+        res.send({
+            forecast: data,
+            address: req.query.address
+        })
+    })
+    /* res.send({
         forecast: 'its sunny',
         address: req.query.address
-    })
+    }) */
 })
 app.get('/products',(req, res)=>{
 
