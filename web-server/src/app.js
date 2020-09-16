@@ -57,19 +57,18 @@ app.get('/weather',(req, res)=>{
             error: 'you must provide an address'
         })
     }
+
     forecast(req.query.address, (error, data)=>{
         if(error){
             return res.send({ error})
         }
-        res.send({
+        res.render('weather', {
             forecast: data,
-            address: req.query.address
+            address: req.query.address,
+            name: 'brenda pereira'
         })
     })
-    /* res.send({
-        forecast: 'its sunny',
-        address: req.query.address
-    }) */
+
 })
 app.get('/products',(req, res)=>{
 
