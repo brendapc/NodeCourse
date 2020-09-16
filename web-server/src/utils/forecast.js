@@ -11,7 +11,7 @@ const forecast = (local, callback)=>{
         }else if(body.error){
             callback('Unable to find place' , undefined)
         }else{
-            callback(undefined, `the current temperature is ${body.current.temperature}`)
+            callback(undefined, `the current temperature is ${body.current.temperature}°`)
         }
     })
 }

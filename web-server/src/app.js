@@ -23,9 +23,9 @@ const partialsPath = path.join(__dirname, '../templates/partials')
 hbs.registerPartials(partialsPath)
 
 //ROUTES:
-app.get('', (req, res)=>{
+app.get('', (req, res)=>{ //ROUT THAT SHOWS ON SCREEN
     res.render('index', {//render views and pass values
-        title: 'OMG a title with handlebars',
+        title: 'Weather',
         name: 'brenda pereira'
     })
 })
@@ -51,7 +51,7 @@ app.get('/help/*',(req,res)=>{
         errorMessage: 'help page not found'
     })
 })
-app.get('/weather',(req, res)=>{
+app.get('/weather',(req, res)=>{ //route that sends back the results
     if(!req.query.address){
         return res.send({
             error: 'you must provide an address'
@@ -60,9 +60,9 @@ app.get('/weather',(req, res)=>{
 
     forecast(req.query.address, (error, data)=>{
         if(error){
-            return res.send({ error})
+            return res.send({ error })
         }
-        res.render('weather', {
+        res.send({
             forecast: data,
             address: req.query.address,
             name: 'brenda pereira'
