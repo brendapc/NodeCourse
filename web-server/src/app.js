@@ -48,7 +48,29 @@ app.get('/help/*',(req,res)=>{
         errorMessage: 'help page not found'
     })
 })
+app.get('/weather',(req, res)=>{
+    if(!req.query.address){
+        return res.send({
+            error: 'you must provide an address'
+        })
+    }
+    res.send({
+        forecast: 'its sunny',
+        address: req.query.address
+    })
+})
+app.get('/products',(req, res)=>{
 
+    if(!req.query.search){
+        return res.send({
+            error: 'you must provide a search term'
+        })
+    }
+    console.log(req.query)
+    res.send({
+        products: []
+    })  
+})
 // * -> anything that hasn't been declared yet
 app.get('*',(req, res)=>{ 
     res.render('404', {
