@@ -32,7 +32,19 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
         console.log(result.ops)
     }) */
 
-    db.collection('tasks').findOne({ _id: new ObjectID("5f6499f757732122dc4b7472")},(error, user)=>{
+    db.collection('users').updateOne({
+        _id: new ObjectID("5f63f9b32313d20460718161")
+    },{
+        $set: {
+            name: 'Marrie'
+        }
+    }).then((result)=>{
+        console.log(result)
+    }).catch((err)=>{
+        console.log(err)
+    })
+
+    /* db.collection('tasks').findOne({ _id: new ObjectID("5f6499f757732122dc4b7472")},(error, user)=>{
         if(error){
             return console.log(error)
         }
@@ -43,7 +55,7 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: 
             console.log(erros)
         }
         console.log(users)
-    })
+    }) */
     /* db.collection('users').findOne({name: 'Brenda'},(error, user)=>{
         if(error){
             return console.log('Unable to fecth')
