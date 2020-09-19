@@ -56,7 +56,22 @@ app.get('/users/:id', (req, res)=>{
         console.log(err)
     })
 })
+app.get('/task', (req, res)=>{
+    Task.find({}).then((task)=>{
+        res.send(task)
+    }).catch((err)=>{
+        res.status(500).send()
+    })
+})
 
+app.get('/task/:id', (req, res)=>{
+    const _id = req.params.id
+    Task.findById(_id).then((task)=>{
+        res.send(task)
+    }).catch((err)=>{
+        res.status(500).send()
+    })
+})
 
 
 
