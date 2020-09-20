@@ -101,6 +101,69 @@ app.get('/task/:id', async (req, res)=>{
 
 })
 
+app.patch('/users/:id', async(req, res)=>{
+    const _id =  req.params.id
+    const updates = Object.keys(req.body)
+    const allowesUpdates = ['name', 'email', 'password', 'age']
+    const isValidUpdate = updates.every((update) => allowesUpdates.includes(update)) //every retorna true se tudo retornar true
+
+    if(!isValidUpdate){
+        return res.status(400).send({ error: 'this update is not allowed'})
+    }
+
+    try{
+        const user = await User.findByIdAndUpdate(_id, req.body, { new: true, runValidators: true})
+
+        if(!user){
+            return res.status(404).send()
+        }
+        res.send(user)
+    }catch(err){
+        res.status(400).send(err)
+    }
+})
+app.patch('/task/:id', async(req, res)=>{
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['description', 'completed']
+    const isValidUpdate = updates.every((update)=> allowedUpdates.includes(update))
+
+    if(!isValidUpdate){
+        return res.status(400).send({ error: 'invalid update'})
+    }
+
+    try{
+        const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true,  runValidators: true})
+        if(!task){
+            return res.status(404).send()
+        }
+        res.send(task)
+    }catch(err){
+        res.status(400).send(err)
+    }
+})
+
+app.delete("/users/:id", async(req, res)=>{
+    try{
+        const user = await User.findByIdAndDelete(req.params.id)
+        if(!user){
+            return res.status(404).send()
+        }
+        res.send(user)
+    }catch(err){
+        res.status(500).send()
+    }
+})
+app.delete('/task/:id', async(req, res)=>{
+    try{
+        const task = await Task.findByIdAndDelete(req.params.id)
+        if(!task){
+            return res.status(404).send()
+        }
+        res.send(task)
+    }catch{
+        res.status(500).send()
+    }
+})
 app.listen(port, ()=>{
     console.log('port is on at '+ port)
 })
