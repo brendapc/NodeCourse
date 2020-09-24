@@ -5,8 +5,18 @@ require('./db/mongoose')
 
 const app = express()
 const port = process.env.PORT || 3000
-app.use(express.json())
 
+app.use((req, res, next)=>{
+    if(req.method === 'GET'){
+        res.send('get request are disabled')
+    }else{
+        next()
+    }
+})
+
+
+
+app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
 
@@ -16,7 +26,7 @@ app.listen(port, ()=>{
     console.log('port is on at '+ port)
 })
 
-const jwt = require('jsonwebtoken')
+/* const jwt = require('jsonwebtoken')
 
 const myFunction = async () => {
     const token = jwt.sign({ _id: 'abc123'}, 'thisismeusingjsonwt', {expiresIn: '1 second'})
@@ -26,4 +36,4 @@ const myFunction = async () => {
     console.log(data)
 }
 
-myFunction()
+myFunction() */
