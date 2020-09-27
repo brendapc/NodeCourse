@@ -14,8 +14,6 @@ const port = process.env.PORT || 3000
     }
 }) */
 
-
-
 app.use(express.json())
 app.use(userRouter)
 app.use(taskRouter)
@@ -26,14 +24,13 @@ app.listen(port, ()=>{
     console.log('port is on at '+ port)
 })
 
-/* const jwt = require('jsonwebtoken')
+const Task = require('./models/task')
+const User = require('./models/user')
 
-const myFunction = async () => {
-    const token = jwt.sign({ _id: 'abc123'}, 'thisismeusingjsonwt', {expiresIn: '1 second'})
-    console.log(token)
-
-    const data = jwt.verify(token, 'thisismeusingjsonwt')
-    console.log(data)
+const main = async ()=>{
+    const user = await User.findById('5f7070f0eadad32d58246db6')
+    await user.populate('tasks').execPopulate()
+    console.log(user.tasks)
 }
 
-myFunction() */
+main()
