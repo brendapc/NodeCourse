@@ -16,7 +16,7 @@ router.post('/task', auth ,async (req, res) => {
         res.status(400).send(err)
     } 
 })
-
+//GET skip=20 limit=10 after 20 (2 pages) show me 10 tasks
 router.get('/tasks', auth ,async (req, res)=>{
     match = {}
     
@@ -29,9 +29,12 @@ router.get('/tasks', auth ,async (req, res)=>{
             path: 'tasks',
             match /* 
                 completed: true
-            } */
+            } */,
+            options: {
+                limit: parseInt(req.query.limit)
+            }
         }).execPopulate()
-        
+
         res.send(req.user.tasks)
     }catch(err){
         res.status(500).send(err) 
@@ -78,7 +81,7 @@ router.patch('/task/:id', auth, async(req, res)=>{
 })
 router.delete('/task/:id', auth ,async(req, res)=>{
     try{
-        const task = await Task.findOne({_id: req.params.id, owner: req.user._id})
+        const task = await Task.findOneAndDelete({_id: req.params.id, owner: req.user._id})
         
         if(!task){
             return res.status(404).send()
